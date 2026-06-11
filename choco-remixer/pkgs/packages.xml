@@ -9276,6 +9276,13 @@
       <whyNotInternal>ToDetermine</whyNotInternal>
     </pkg>
     <pkg>
+      <id>dwgtrueview</id>
+      <functionName>Convert-autodesk-standard</functionName>
+      <needsStopAction>no</needsStopAction>
+      <needsToolsDir>no</needsToolsDir>
+      <whyNotInternal>licensing</whyNotInternal>
+    </pkg>
+    <pkg>
       <id>ea-app</id>
       <functionName>Convert-InstallChocolateyPackage</functionName>
       <needsStopAction>no</needsStopAction>
@@ -26798,7 +26805,6 @@
     <id>autenticacaogovpt</id>
     <id>authy-desktop</id>
     <id>auto-mit</id>
-    <id>autocadlt</id>
     <id>autoclicker</id>
     <id>autocomplete</id>
     <id>autoit.commandline</id>
@@ -27709,7 +27715,6 @@
     <id>dvdstyler</id>
     <id>dwag</id>
     <id>dwarf-fortress</id>
-    <id>dwgtrueview</id>
     <id>dws.portable</id>
     <id>dxlog</id>
     <id>dxwnd</id>
@@ -28694,7 +28699,6 @@
     <id>invantive-query-tool</id>
     <id>invantive-runtime</id>
     <id>invantive-studio</id>
-    <id>inventor</id>
     <id>inventorview</id>
     <id>io.js</id>
     <id>ioquake3-data</id>
