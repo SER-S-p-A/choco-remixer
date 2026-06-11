@@ -5304,8 +5304,15 @@
       <whyNotInternal>ToDetermine</whyNotInternal>
     </pkg>
     <pkg>
-      <functionName>Convert-autocad</functionName>
       <id>autocad</id>
+      <functionName>Convert-autodesk-standard</functionName>
+      <needsStopAction>no</needsStopAction>
+      <needsToolsDir>no</needsToolsDir>
+      <whyNotInternal>licensing</whyNotInternal>
+    </pkg>
+    <pkg>
+      <id>autocadlt</id>
+      <functionName>Convert-autodesk-standard</functionName>
       <needsStopAction>no</needsStopAction>
       <needsToolsDir>no</needsToolsDir>
       <whyNotInternal>licensing</whyNotInternal>
@@ -12687,6 +12694,13 @@
       <checksumArgsType>5</checksumArgsType>
       <checksumTypeType>sha256</checksumTypeType>
       <whyNotInternal>ToDetermine</whyNotInternal>
+    </pkg>
+    <pkg>
+      <functionName>Convert-autodesk-standard</functionName>
+      <id>inventor</id>
+      <needsStopAction>no</needsStopAction>
+      <needsToolsDir>no</needsToolsDir>
+      <whyNotInternal>licensing</whyNotInternal>
     </pkg>
     <pkg>
       <id>io-ninja</id>
