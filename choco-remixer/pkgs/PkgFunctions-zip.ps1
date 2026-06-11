@@ -653,7 +653,7 @@ Function Convert-gcloudsdk ([PackageInternalizeInfo]$obj) {
     Get-FileWithCache -PackageID $obj.nuspecID -PackageVersion $obj.version -url $url64 -filename $filename64 -folder $obj.toolsDir -checksum $checksum64 -checksumTypeType 'sha256'
 }
 
-Function Convert-autocad ([PackageInternalizeInfo]$obj) {
+Function Convert-autodesk-standard ([PackageInternalizeInfo]$obj) {
     $fullurl32 = ($obj.installScriptOrig -split "`n" | Select-String -Pattern '^\$url ').tostring()
     $url32 = ($fullurl32 -split "'" | Select-String -Pattern "http").tostring()
     $filename32 = ($url32 -split "/" | Select-Object -Last 1).tostring()
