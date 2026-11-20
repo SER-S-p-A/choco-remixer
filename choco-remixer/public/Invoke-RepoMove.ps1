@@ -8,7 +8,9 @@
         [string]$folderXML,
         [string]$proxyRepoCreds,
         [string]$privateRepoCreds,
-        [switch]$calledInternally
+        [switch]$calledInternally,
+        # See Invoke-InternalizeChocoPkg; the push of each moved package starts this file when given.
+        [string]$chocoExePath
     )
     $saveProgPref = $ProgressPreference
     $ProgressPreference = 'SilentlyContinue'
@@ -64,6 +66,12 @@
     $privateRepoBaseURL = $config.privateRepoURL -split "repository" | Select-Object -First 1
     $privateRepoApiURL = $privateRepoBaseURL + "service/rest/v1/"
 
+    if ($chocoExePath) {
+        $moveChocoProgram = $chocoExePath
+    } else {
+        $moveChocoProgram = "choco"
+    }
+
     $saveDir = Join-Path $config.workDir "internal-packages-temp"
     if (!(Test-Path $saveDir)) {
         $null = New-Item -Type Directory $saveDir
@@ -112,7 +120,7 @@
                             Get-File -url $downloadURL -filename $filename -folder $saveDir -checksum $downloadChecksum -checksumTypeType 'sha512' -authorization "Basic $proxyRepoCredsBase64"
 
                             $pushArgs = "push " + $filename + " -f -r -s " + $config.moveToRepoURL
-                            $pushcode = Start-Process -FilePath "choco" -ArgumentList $pushArgs -WorkingDirectory $saveDir -NoNewWindow -Wait -PassThru
+                            $pushcode = Start-Process -FilePath $moveChocoProgram -ArgumentList $pushArgs -WorkingDirectory $saveDir -NoNewWindow -Wait -PassThru
 
                             if ($pushcode.exitcode -ne "0") {
                                 Throw "pushing $nuspecID $_ failed"

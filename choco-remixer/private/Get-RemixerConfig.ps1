@@ -6,7 +6,19 @@
     )
     $ErrorActionPreference = 'Stop'
 
-    if ($null -eq (Get-Command "choco" -ea 0)) {
+    # A caller that names its own choco.exe gets exactly that file or a stop, never a fallback to
+    # the lookup by name, because the lookup could start another Chocolatey than the one it named.
+    if ($upperFunctionBoundParameters.ContainsKey('chocoExePath')) {
+        $givenChocoExePath = [string]$upperFunctionBoundParameters['chocoExePath']
+        $isFullPath = ($givenChocoExePath -match '^(?:[A-Za-z]:[\\/]|[\\/]{2}[^\\/])') -or
+            (($IsWindows -eq $false) -and $givenChocoExePath.StartsWith('/'))
+        if (!$isFullPath) {
+            Throw "chocoExePath must be the full path of the Chocolatey program to start, got '$givenChocoExePath'"
+        }
+        if (!(Test-Path -LiteralPath $givenChocoExePath -PathType Leaf)) {
+            Throw "chocoExePath names no existing file: '$givenChocoExePath'"
+        }
+    } elseif ($null -eq (Get-Command "choco" -ea 0)) {
         Write-Error "Did not find Choco, please make sure it is installed and on path"
         Throw
     }

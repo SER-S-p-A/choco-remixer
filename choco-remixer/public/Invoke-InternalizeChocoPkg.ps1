@@ -1,5 +1,16 @@
 ﻿#Requires -Version 5.0
 Function Invoke-InternalizeChocoPkg {
+    <#
+    .SYNOPSIS
+    Internalizes the downloaded Chocolatey packages in the configured search folder.
+
+    .PARAMETER chocoExePath
+    Full path of the Chocolatey program to start, for a caller that must not depend on which choco PATH finds first.
+    When given, it is used for three things: the availability check of the configuration, the package build (choco pack) and the configured repository move (its choco push).
+    The call stops when the file does not exist, and no other Chocolatey program is tried.
+    The package push (pushPkgs) and the repository check (Invoke-RepoCheck) do not use it; they start choco by name.
+    When omitted, every start is choco by name, as before.
+    #>
     [CmdletBinding()]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '', Justification = 'String needs to be in plain text when used for header')]
     param (
@@ -15,7 +26,8 @@ Function Invoke-InternalizeChocoPkg {
         [switch]$noSave,
         [switch]$writeVersion,
         [switch]$noPack,
-        [switch]$copyInternal
+        [switch]$copyInternal,
+        [string]$chocoExePath
     )
     $ErrorActionPreference = 'Stop'
 
@@ -35,6 +47,9 @@ Function Invoke-InternalizeChocoPkg {
             repoCheckXML     = $repoCheckXML
             privateRepoCreds = $privateRepoCreds
             calledInternally = $true
+        }
+        if ($PSBoundParameters.ContainsKey('chocoExePath')) {
+            $invokeRepoMoveArgs.chocoExePath = $chocoExePath
         }
 
         Try {

@@ -16,7 +16,9 @@ Function Invoke-InternalizeDownloadedChocoPkg {
         [switch]$writeVersion,
         [switch]$noPack,
         [switch]$copyInternal,
-        [parameter(Mandatory = $true)][string]$nupkgFile
+        [parameter(Mandatory = $true)][string]$nupkgFile,
+        # See Invoke-InternalizeChocoPkg; the package build starts this file when given.
+        [string]$chocoExePath
     )
     $ErrorActionPreference = 'Stop'
 
@@ -180,9 +182,14 @@ Function Invoke-InternalizeDownloadedChocoPkg {
         if ($noPack) {
             $exitcode = 0
         } else {
-            #start choco pack in the correct directory
+            #start choco pack in the correct directory, with the caller's own choco.exe where it named one
+            if ($chocoExePath) {
+                $packChocoProgram = $chocoExePath
+            } else {
+                $packChocoProgram = "choco"
+            }
             $startProcessArgs = @{
-                FilePath         = "choco"
+                FilePath         = $packChocoProgram
                 ArgumentList     = 'pack -r'
                 WorkingDirectory = $obj.versionDir
                 NoNewWindow      = $true
